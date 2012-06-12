@@ -1,0 +1,26 @@
+From dec9511e0008c28462d7a98df0629479ab0c103d Mon Sep 17 00:00:00 2001
+From: Adam Young <ayoung@redhat.com>
+Date: Thu, 7 Jun 2012 10:10:41 -0400
+Subject: [PATCH] IN the final RPM, there is no wsproxy,  but rather just
+ websockify.
+
+---
+ utils/nova-novncproxy |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/utils/nova-novncproxy b/utils/nova-novncproxy
+index a920492..a172212 100755
+--- a/utils/nova-novncproxy
++++ b/utils/nova-novncproxy
+@@ -26,7 +26,7 @@ import Cookie
+ import socket
+ import sys
+ 
+-import wsproxy
++import websockify as wsproxy
+ 
+ from nova import context
+ from nova import flags
+-- 
+1.7.10.2
+
