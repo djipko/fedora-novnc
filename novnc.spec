@@ -15,7 +15,7 @@
 
 Name:           novnc
 Version:        0.3
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        VNC client using HTML5 (Web Sockets, Canvas) with encryption support
 
 License:        GPLv3
@@ -37,6 +37,7 @@ Websocket implementation of VNC client
 
 %package -n openstack-nova-novncproxy
 Summary:        Proxy server for noVNC traffic over Websockets
+Requires:       novnc
 Requires:       numpy
 Requires:       python-websockify
 
@@ -132,6 +133,9 @@ fi
 %endif
 
 %changelog
+* Wed Jun 13 2012 Jose Castro Leon <jose.castro.leon@cern.ch> - 0.3-7
+- Add a dependency for openstack-nova-novncproxy on novnc
+
 * Mon Jun 11 2012 Adam Young <ayoung@redhat.com> - 0.3-6
 - systemd initialization for Nova Proxy
 - system V init script
