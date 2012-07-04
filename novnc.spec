@@ -15,8 +15,9 @@
 
 Name:           novnc
 Version:        0.3
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        VNC client using HTML5 (Web Sockets, Canvas) with encryption support
+Requires:       python-websockify
 
 License:        GPLv3
 URL:            https://github.com/kanaka/noVNC
@@ -133,6 +134,9 @@ fi
 %endif
 
 %changelog
+* Wed Jul  4 2012 Till Maas <opensource@till.name> - 0.3-11
+- Add a dependency for novnc on python-websockify
+
 * Wed Jun 15 2012 Jose Castro Leon <jose.castro.leon@cern.ch> - 0.3-10
 - Add a dependency for openstack-nova-novncproxy on openstack-nova
 
