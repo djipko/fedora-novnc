@@ -15,7 +15,7 @@
 
 Name:           novnc
 Version:        0.3
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        VNC client using HTML5 (Web Sockets, Canvas) with encryption support
 Requires:       python-websockify
 
@@ -134,6 +134,9 @@ fi
 %endif
 
 %changelog
+* Fri Jul 20 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Wed Jul  4 2012 Till Maas <opensource@till.name> - 0.3-11
 - Add a dependency for novnc on python-websockify
 
