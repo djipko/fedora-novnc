@@ -6,25 +6,15 @@
   sed -ne 's/^\.fc\?\([0-9]\+\).*/%%define fedora \1/p')}
 %endif
 
-%if 0%{?fedora} >= 15  ||  0%{?rhel} >= 7
-%define with_systemd 1
-%else
-%define with_systemd 0
-%define _initdir  /etc/rc.d/init.d
-%endif
-
 Name:           novnc
 Version:        0.3
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        VNC client using HTML5 (Web Sockets, Canvas) with encryption support
 Requires:       python-websockify
 
 License:        GPLv3
 URL:            https://github.com/kanaka/noVNC
 Source0:        https://github.com/downloads/kanaka/noVNC/noVNC-%{version}.tar.gz
-Source1:        openstack-nova-novncproxy.service
-Source2:        openstack-nova-novncproxy.init
-
 
 Patch0:         novnc-0.3-nova-wsproxy.patch
 Patch1:         novnc-0.3-manpage.patch
@@ -35,27 +25,6 @@ BuildRequires:  python2-devel
 %description
 Websocket implementation of VNC client
 
-
-%package -n openstack-nova-novncproxy
-Summary:        Proxy server for noVNC traffic over Websockets
-Requires:       novnc
-Requires:       openstack-nova
-Requires:       python-websockify
-
-%if %{with_systemd}
-Requires(post): systemd-units
-Requires(post): systemd-sysv
-Requires(preun): systemd-units
-Requires(postun): systemd-units
-%else
-Requires(post): chkconfig
-Requires(preun): chkconfig
-Requires(preun): initscripts
-%endif
-
-%description -n openstack-nova-novncproxy
-OpenStack Nova noVNC server that proxies VNC traffic over Websockets
-
 %prep
 %setup -q
 %patch0 -p1
@@ -63,7 +32,6 @@ OpenStack Nova noVNC server that proxies VNC traffic over Websockets
 %patch2 -p1
 
 %build
-
 
 %install
 mkdir -p %{buildroot}/%{_usr}/share/novnc/utils
@@ -79,37 +47,8 @@ install -m 444 images/*.*  %{buildroot}/%{_usr}/share/novnc/images
 mkdir -p %{buildroot}/%{_bindir}
 install utils/launch.sh  %{buildroot}/%{_bindir}/novnc_server
 
-install utils/nova-novncproxy %{buildroot}/%{_bindir}
-
 mkdir -p %{buildroot}%{_mandir}/man1/
-install -m 444 docs/nova-novncproxy.1 %{buildroot}%{_mandir}/man1/
 install -m 444 docs/novnc_server.1 %{buildroot}%{_mandir}/man1/
-
-%if %{with_systemd}
-mkdir -p %{buildroot}%{_unitdir}
-install -p -D -m 444 %{SOURCE1} %{buildroot}%{_unitdir}
-%else
-mkdir -p %{buildroot}%{_initddir}
-install -p -D -m 755 %{SOURCE2} %{buildroot}%{_initddir}/openstack-nova-novncproxy
-%endif
-
-
-%post -n openstack-nova-novncproxy
-%if %{with_systemd}
-%else
-# This adds the proper /etc/rc*.d links for the script
-/sbin/chkconfig --add openstack-nova-novncproxy
-%endif
-
-%preun -n openstack-nova-novncproxy
-%if %{with_systemd}
-%else
-if [ $1 -eq 0 ] ; then
-    /sbin/service openstack-nova-novncproxy stop >/dev/null 2>&1
-    /sbin/chkconfig --del openstack-nova-novncproxy
-fi
-%endif
-
 
 %files
 %doc README.md LICENSE.txt
@@ -123,17 +62,11 @@ fi
 %{_bindir}/novnc_server
 %{_mandir}/man1/novnc_server.1*
 
-
-%files -n openstack-nova-novncproxy
-%{_bindir}/nova-novncproxy
-%{_mandir}/man1/nova-novncproxy.1*
-%if %{with_systemd}
-%{_unitdir}/openstack-nova-novncproxy.service
-%else
-%{_initdir}/openstack-nova-novncproxy
-%endif
-
 %changelog
+* Thu Oct 18 2012 Nikola Đipanov <ndipanoiv@redhat.com> - 0.3-13
+- Removes the nova-novncproxy subpackage (files are moved to openstack-nova package)
+- This solves #859127 
+
 * Fri Jul 20 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
