@@ -16,7 +16,6 @@ License:        GPLv3
 URL:            https://github.com/kanaka/noVNC
 Source0:        https://github.com/downloads/kanaka/noVNC/noVNC-%{version}.tar.gz
 
-Patch0:         novnc-0.3-nova-wsproxy.patch
 Patch1:         novnc-0.3-manpage.patch
 Patch2:         novnc-0.3-call-websockify.patch
 BuildArch:      noarch
@@ -27,7 +26,6 @@ Websocket implementation of VNC client
 
 %prep
 %setup -q
-%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 
