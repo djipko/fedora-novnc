@@ -14,21 +14,21 @@
 %endif
 
 Name:           novnc
-Version:        0.3
-Release:        11%{?dist}
+Version:        0.4
+Release:        1%{?dist}
 Summary:        VNC client using HTML5 (Web Sockets, Canvas) with encryption support
 Requires:       python-websockify
 
 License:        GPLv3
 URL:            https://github.com/kanaka/noVNC
-Source0:        https://github.com/downloads/kanaka/noVNC/noVNC-%{version}.tar.gz
+Source0:        https://github.com/downloads/kanaka/noVNC/novnc-%{version}.tar.gz
 Source1:        openstack-nova-novncproxy.service
 Source2:        openstack-nova-novncproxy.init
 
 
-Patch0:         novnc-0.3-nova-wsproxy.patch
-Patch1:         novnc-0.3-manpage.patch
-Patch2:         novnc-0.3-call-websockify.patch
+Patch0:         novnc-0.4-nova-wsproxy.patch
+Patch1:         novnc-0.4-manpage.patch
+Patch2:         novnc-0.4-call-websockify.patch
 BuildArch:      noarch
 BuildRequires:  python2-devel
 
@@ -82,7 +82,6 @@ install utils/launch.sh  %{buildroot}/%{_bindir}/novnc_server
 install utils/nova-novncproxy %{buildroot}/%{_bindir}
 
 mkdir -p %{buildroot}%{_mandir}/man1/
-install -m 444 docs/nova-novncproxy.1 %{buildroot}%{_mandir}/man1/
 install -m 444 docs/novnc_server.1 %{buildroot}%{_mandir}/man1/
 
 %if %{with_systemd}
@@ -126,7 +125,6 @@ fi
 
 %files -n openstack-nova-novncproxy
 %{_bindir}/nova-novncproxy
-%{_mandir}/man1/nova-novncproxy.1*
 %if %{with_systemd}
 %{_unitdir}/openstack-nova-novncproxy.service
 %else
@@ -134,6 +132,9 @@ fi
 %endif
 
 %changelog
+* Mon Oct 22 2012 Nikola Đipanoov <ndipanov@redhat.com> - 0.4-1
+- Moves to upstream version 0.4.0
+
 * Wed Jul  4 2012 Till Maas <opensource@till.name> - 0.3-11
 - Add a dependency for novnc on python-websockify
 
