@@ -15,7 +15,7 @@
 
 Name:           novnc
 Version:        0.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        VNC client using HTML5 (Web Sockets, Canvas) with encryption support
 Requires:       python-websockify
 
@@ -132,6 +132,9 @@ fi
 %endif
 
 %changelog
+* Mon Oct 22 2012 Nikola Đipanoov <ndipanov@redhat.com> - 0.4-2
+- Fixes the supplied init script to match the new 0.4 version
+
 * Mon Oct 22 2012 Nikola Đipanoov <ndipanov@redhat.com> - 0.4-1
 - Moves to upstream version 0.4.0
 

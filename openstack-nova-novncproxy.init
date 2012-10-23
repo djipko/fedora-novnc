@@ -31,7 +31,7 @@ start() {
     [ -x $exec ] || exit 5
     [ -f $config ] || exit 6
     echo -n $"Starting $prog: "
-    daemon --user nova --pidfile $pidfile "$exec --flagfile=$config --web /usr/share/novnc/ &>/dev/null & echo \$! > $pidfile"
+    daemon --user nova --pidfile $pidfile "$exec --web /usr/share/novnc/ &>/dev/null & echo \$! > $pidfile"
     retval=$?
     echo
     [ $retval -eq 0 ] && touch $lockfile
